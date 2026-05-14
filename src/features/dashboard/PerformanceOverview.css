@@ -1,0 +1,32 @@
+.performance-overview {
+  height: 100%;
+}
+
+.chart-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.01);
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+}
+
+.placeholder-icon {
+  color: rgba(255, 255, 255, 0.2);
+  margin-bottom: 16px;
+}
+
+.chart-placeholder p {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 8px 0;
+}
+
+.chart-placeholder span {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.4);
+}

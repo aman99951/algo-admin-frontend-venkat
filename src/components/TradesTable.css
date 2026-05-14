@@ -1,0 +1,79 @@
+.trades-table {
+  animation: fadeIn 0.8s ease;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 8px;
+  background: var(--bg-tertiary);
+  padding: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.filter-btn {
+  padding: 6px 16px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.filter-btn:hover {
+  color: var(--text-primary);
+}
+
+.filter-btn.active {
+  background: var(--accent-blue);
+  color: white;
+}
+
+.signal-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.signal-badge.paper {
+  background: rgba(156, 39, 176, 0.2);
+  color: #ba68c8;
+}
+
+.signal-badge.live {
+  background: rgba(76, 175, 80, 0.3);
+  color: var(--accent-green);
+}
+
+.signal-badge.buy_ce {
+  background: rgba(76, 175, 80, 0.2);
+  color: var(--accent-green);
+}
+
+.signal-badge.buy_pe {
+  background: rgba(244, 67, 54, 0.2);
+  color: var(--accent-red);
+}
+
+.signal-badge.sell_ce,
+.signal-badge.sell_pe,
+.signal-badge.exit {
+  background: rgba(255, 152, 0, 0.2);
+  color: var(--accent-orange);
+}
+
+@media (max-width: 768px) {
+  .filter-buttons {
+    width: 100%;
+  }
+  
+  .filter-btn {
+    flex: 1;
+    text-align: center;
+  }
+}

@@ -1,0 +1,56 @@
+/* CreditsBadge — compact pill */
+.credits-badge-compact {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(255, 193, 7, 0.08);
+  color: #ffc107;
+  border: 1px solid rgba(255, 193, 7, 0.15);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.credits-badge-compact:hover {
+  background: rgba(255, 193, 7, 0.15);
+  border-color: rgba(255, 193, 7, 0.3);
+  transform: translateY(-1px);
+}
+
+.credits-badge-compact .credits-count {
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.credits-badge-compact .credits-label {
+  opacity: 0.8;
+  font-size: 11px;
+}
+
+/* Low balance state */
+.credits-badge-compact.credits-low {
+  background: rgba(244, 67, 54, 0.08);
+  color: #f44336;
+  border-color: rgba(244, 67, 54, 0.15);
+  animation: credits-pulse 2s ease-in-out infinite;
+}
+
+.credits-badge-compact.credits-low:hover {
+  background: rgba(244, 67, 54, 0.15);
+  border-color: rgba(244, 67, 54, 0.3);
+}
+
+@keyframes credits-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@media (max-width: 768px) {
+  .credits-badge-compact .credits-label {
+    display: none;
+  }
+}
