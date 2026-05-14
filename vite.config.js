@@ -8,11 +8,11 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'http://localhost:8000',
+        target: 'https://trade-vault-back-end-new-v1.vercel.app/',
         changeOrigin: true,
       },
       '/ws': {
-        target: 'ws://localhost:8000',
+        target: 'wss://trade-vault-back-end-new-v1.vercel.app/',
         ws: true,
       }
     }
