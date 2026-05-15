@@ -285,36 +285,36 @@ export const analyticsAPI = {
 // ============ Credits / Billing ============
 export const creditsAPI = {
   getBalance: async () => {
-    const response = await apiClient.get('/credits/balance');
+    const response = await apiClient.get('/dashboard/credits/balance');
     return response.data;
   },
 
   getHistory: async (limit = 50) => {
-    const response = await apiClient.get('/credits/history', {
+    const response = await apiClient.get('/dashboard/credits/history', {
       params: { limit },
     });
     return response.data;
   },
 
   getPackages: async () => {
-    const response = await apiClient.get('/credits/packages');
+    const response = await apiClient.get('/dashboard/credits/packages');
     return response.data;
   },
 
   getConfig: async () => {
-    const response = await apiClient.get('/credits/config');
+    const response = await apiClient.get('/dashboard/credits/config');
     return response.data;
   },
 
   createOrder: async (packageId) => {
-    const response = await apiClient.post('/credits/create-order', {
+    const response = await apiClient.post('/dashboard/credits/create-order', {
       package_id: packageId,
     });
     return response.data;
   },
 
   verifyPayment: async (razorpayOrderId, razorpayPaymentId, razorpaySignature) => {
-    const response = await apiClient.post('/credits/verify', {
+    const response = await apiClient.post('/dashboard/credits/verify', {
       razorpay_order_id: razorpayOrderId,
       razorpay_payment_id: razorpayPaymentId,
       razorpay_signature: razorpaySignature,
