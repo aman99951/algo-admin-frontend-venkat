@@ -15,6 +15,7 @@ const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage'));
 const HistoryPage = lazy(() => import('./pages/HistoryPage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 const CreditsPage = lazy(() => import('./pages/CreditsPage'));
+const AdminPage = lazy(() => import('./pages/AdminPage'));
 
 // Loading fallback component
 function RouteLoader() {
@@ -103,6 +104,11 @@ function App() {
             <Route path="credits" element={
               <Suspense fallback={<RouteLoader />}>
                 <CreditsPage />
+              </Suspense>
+            } />
+            <Route path="admin" element={
+              <Suspense fallback={<RouteLoader />}>
+                <AdminPage />
               </Suspense>
             } />
             <Route path="credentials" element={

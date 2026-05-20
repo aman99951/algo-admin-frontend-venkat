@@ -323,4 +323,81 @@ export const creditsAPI = {
   },
 };
 
+// ============ Admin API ============
+const ADMIN_API_BASE = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/api/admin`
+  : '/api/admin';
+
+const adminApiClient = axios.create({
+  baseURL: ADMIN_API_BASE,
+  timeout: 30000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Add admin key to all requests
+adminApiClient.interceptors.request.use((config) => {
+  const adminKey = localStorage.getItem('admin_key') || 'tradevault-admin-secret';
+  config.headers = {
+    ...config.headers,
+    'Authorization': adminKey,
+  };
+  return config;
+});
+
+export const adminAPI = {
+  // Get all users with their profiles, credits, and purchase history
+  getUsers: async () => {
+    const response = await adminApiClient.get('/users');
+    return response.data;
+  },
+
+  // Get detailed user info
+  getUserDetail: async (userId) => {
+    const response = await adminApiClient.get(`/users/${userId}`);
+    return response.data;
+  },
+
+  // Adjust user credits (positive = add, negative = remove)
+  adjustCredits: async (userId, amount, reason, note = '') => {
+    const response = await adminApiClient.post(`/users/${userId}/credits`, {
+      amount,
+      reason,
+      note,
+    });
+    return response.data;
+  },
+
+  // Get database status
+  getDbStatus: async () => {
+    const response = await adminApiClient.get('/db-status');
+    return response.data;
+  },
+
+  // Get market data
+  getMarketData: async (indexName = null, limit = 50) => {
+    const response = await adminApiClient.get('/market-data', {
+      params: { index_name: indexName, limit },
+    });
+    return response.data;
+  },
+
+  // Get Redis sessions
+  getRedisSessions: async () => {
+    const response = await adminApiClient.get('/redis-sessions');
+    return response.data;
+  },
+
+  // Set admin key
+  setAdminKey: (key) => {
+    localStorage.setItem('admin_key', key);
+  },
+
+  // Get current admin key
+  getAdminKey: () => {
+    return localStorage.getItem('admin_key') || 'tradevault-admin-secret';
+  },
+};
+
 export default apiClient;

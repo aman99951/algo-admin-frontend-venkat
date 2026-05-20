@@ -11,7 +11,8 @@ import {
   BarChart3,
   History,
   Shield,
-  Coins
+  Coins,
+  Gauge
 } from 'lucide-react';
 import CreditsBadge from '../components/CreditsBadge';
 import './MainLayout.css';
@@ -36,6 +37,7 @@ export default function MainLayout() {
     { path: '/analytics', icon: BarChart3, label: 'Analytics', description: 'Performance & insights' },
     { path: '/history', icon: History, label: 'History', description: 'Trade history' },
     { path: '/credits', icon: Coins, label: 'Credits', description: 'Balance & billing' },
+    { path: '/admin', icon: Gauge, label: 'Admin', description: 'User management' },
     { path: '/settings', icon: Settings, label: 'Settings', description: 'Credentials & preferences' }
   ];
 
