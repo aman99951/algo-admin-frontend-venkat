@@ -389,6 +389,14 @@ export const adminAPI = {
     return response.data;
   },
 
+  // Get table data (with pagination)
+  getTableData: async (tableName, limit = 50, offset = 0) => {
+    const response = await adminApiClient.get(`/table-data/${tableName}`, {
+      params: { limit, offset },
+    });
+    return response.data;
+  },
+
   // Set admin key
   setAdminKey: (key) => {
     localStorage.setItem('admin_key', key);

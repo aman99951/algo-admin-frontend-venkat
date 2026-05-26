@@ -29,6 +29,12 @@ export default function AdminPage() {
   
   // Redis sessions
   const [redisData, setRedisData] = useState(null);
+
+  // Table data browser
+  const [selectedTable, setSelectedTable] = useState(null);
+  const [tableData, setTableData] = useState(null);
+  const [tableLoading, setTableLoading] = useState(false);
+  const [tableOffset, setTableOffset] = useState(0);
   
   // Admin key
   const [adminKey, setAdminKey] = useState(adminAPI.getAdminKey());
@@ -102,6 +108,21 @@ export default function AdminPage() {
       setError(err.response?.data?.detail || err.message || 'Failed to adjust credits');
     } finally {
       setAdjustLoading(false);
+    }
+  };
+
+  const handleViewTable = async (tableName, offset = 0) => {
+    setSelectedTable(tableName);
+    setTableOffset(offset);
+    setTableLoading(true);
+    setError(null);
+    try {
+      const data = await adminAPI.getTableData(tableName, 50, offset);
+      setTableData(data);
+    } catch (err) {
+      setError(err.response?.data?.detail || err.message || 'Failed to load table data');
+    } finally {
+      setTableLoading(false);
     }
   };
 
@@ -300,12 +321,79 @@ export default function AdminPage() {
                   <h3>Database Tables</h3>
                   <div className="tables-grid">
                     {Object.entries(dbStatus.tables || {}).map(([name, count]) => (
-                      <div key={name} className="table-item">
+                      <div
+                        key={name}
+                        className={`table-item ${selectedTable === name ? 'active' : ''}`}
+                        onClick={() => handleViewTable(name)}
+                      >
                         <span className="table-name">{name}</span>
                         <span className="table-count">{count}</span>
                       </div>
                     ))}
                   </div>
+                </div>
+              </div>
+            )}
+
+            {/* Table Data Modal */}
+            {selectedTable && (
+              <div className="table-data-modal" onClick={() => { setSelectedTable(null); setTableData(null); }}>
+                <div className="modal-content wide" onClick={(e) => e.stopPropagation()}>
+                  <div className="modal-header">
+                    <h3>Table: {selectedTable}</h3>
+                    <button className="btn-close" onClick={() => { setSelectedTable(null); setTableData(null); }}>&times;</button>
+                  </div>
+                  {tableLoading ? (
+                    <div className="admin-loading">Loading data...</div>
+                  ) : tableData ? (
+                    <>
+                      <div className="table-data-meta">
+                        <span>Total rows: <strong>{tableData.total_rows}</strong></span>
+                        <span>Showing: <strong>{tableData.rows.length}</strong> (offset {tableData.offset})</span>
+                      </div>
+                      <div className="table-data-wrapper">
+                        <table className="table-data-table">
+                          <thead>
+                            <tr>
+                              {tableData.columns.map((col) => (
+                                <th key={col}>{col}</th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {tableData.rows.map((row, i) => (
+                              <tr key={i}>
+                                {tableData.columns.map((col) => (
+                                  <td key={col}>
+                                    {row[col] === null ? <span className="null-value">NULL</span>
+                                      : typeof row[col] === 'object' ? JSON.stringify(row[col])
+                                      : String(row[col])}
+                                  </td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                      <div className="table-data-pagination">
+                        <button
+                          className="btn-sm btn-primary"
+                          disabled={tableOffset === 0}
+                          onClick={() => handleViewTable(selectedTable, Math.max(0, tableOffset - 50))}
+                        >
+                          Previous
+                        </button>
+                        <span>Page {Math.floor(tableOffset / 50) + 1} of {Math.ceil(tableData.total_rows / 50) || 1}</span>
+                        <button
+                          className="btn-sm btn-primary"
+                          disabled={tableOffset + 50 >= tableData.total_rows}
+                          onClick={() => handleViewTable(selectedTable, tableOffset + 50)}
+                        >
+                          Next
+                        </button>
+                      </div>
+                    </>
+                  ) : null}
                 </div>
               </div>
             )}
